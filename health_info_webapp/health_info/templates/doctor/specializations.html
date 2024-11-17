@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Specializations{% endblock %}
+
+{% block content %}
+<h1>Manage Specializations for {{ doctor.email }}</h1>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.disease_type_id.label }} {{ form.disease_type_id(class="form-control") }}
+        {% if form.disease_type_id.errors %}
+            <div class="text-danger">{{ form.disease_type_id.errors[0] }}</div>
+        {% endif %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+<h2>Current Specializations</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Disease Type ID</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for spec in specializations %}
+        <tr>
+            <td>{{ spec.id }}</td>
+            <td>{{ spec.disease_type.description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('doctor.list_doctors') }}" class="btn btn-secondary">Back to Doctors</a>
+{% endblock %}

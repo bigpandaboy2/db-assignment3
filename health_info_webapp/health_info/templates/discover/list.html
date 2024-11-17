@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Discoveries{% endblock %}
+
+{% block content %}
+<h1>Discoveries</h1>
+<a href="{{ url_for('discover.new_discovery') }}" class="btn btn-primary">Add New Discovery</a>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country Name</th>
+            <th>Disease Code</th>
+            <th>First Encounter Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for discovery in discoveries %}
+        <tr>
+            <td>{{ discovery.cname }}</td>
+            <td>{{ discovery.disease_code }}</td>
+            <td>{{ discovery.first_enc_date.strftime('%Y-%m-%d') }}</td>
+            <td>
+                <a href="{{ url_for('discover.update_discovery', cname=discovery.cname, disease_code=discovery.disease_code) }}" class="btn btn-info btn-sm">Update</a>
+                <form action="{{ url_for('discover.delete_discovery', cname=discovery.cname, disease_code=discovery.disease_code) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this discovery?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

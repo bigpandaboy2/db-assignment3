@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Specializations{% endblock %}
+
+{% block content %}
+<h1>Specializations</h1>
+<a href="{{ url_for('specialize.new_specialization') }}" class="btn btn-primary">Add New Specialization</a>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Disease Type ID</th>
+            <th>Doctor Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for specialize in specializations %}
+        <tr>
+            <td>{{ specialize.id }}</td>
+            <td>{{ specialize.email }}</td>
+            <td>
+                <a href="{{ url_for('specialize.update_specialization', id=specialize.id, email=specialize.email) }}" class="btn btn-info btn-sm">Update</a>
+                <form action="{{ url_for('specialize.delete_specialization', id=specialize.id, email=specialize.email) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this specialization?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

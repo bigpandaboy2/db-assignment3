@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ legend }}{% endblock %}
+
+{% block content %}
+<h1>{{ legend }}</h1>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.disease_code.label }} {{ form.disease_code(class="form-control", readonly=(legend == 'Update Disease')) }}
+        {% if form.disease_code.errors %}
+            <div class="text-danger">{{ form.disease_code.errors[0] }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.pathogen.label }} {{ form.pathogen(class="form-control") }}
+        {% if form.pathogen.errors %}
+            <div class="text-danger">{{ form.pathogen.errors[0] }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.description.label }} {{ form.description(class="form-control") }}
+        {% if form.description.errors %}
+            <div class="text-danger">{{ form.description.errors[0] }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.disease_type_id.label }} {{ form.disease_type_id(class="form-control") }}
+        {% if form.disease_type_id.errors %}
+            <div class="text-danger">{{ form.disease_type_id.errors[0] }}</div>
+        {% endif %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

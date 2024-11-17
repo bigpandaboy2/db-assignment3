@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Records{% endblock %}
+
+{% block content %}
+<h1>Records</h1>
+<a href="{{ url_for('record.new_record') }}" class="btn btn-primary">Add New Record</a>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Public Servant Email</th>
+            <th>Country</th>
+            <th>Disease Code</th>
+            <th>Total Deaths</th>
+            <th>Total Patients</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.email }}</td>
+            <td>{{ record.cname }}</td>
+            <td>{{ record.disease_code }}</td>
+            <td>{{ record.total_deaths }}</td>
+            <td>{{ record.total_patients }}</td>
+            <td>
+                <a href="{{ url_for('record.update_record', email=record.email, cname=record.cname, disease_code=record.disease_code) }}" class="btn btn-info btn-sm">Update</a>
+                <form action="{{ url_for('record.delete_record', email=record.email, cname=record.cname, disease_code=record.disease_code) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this record?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

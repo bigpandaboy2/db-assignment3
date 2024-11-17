@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Disease Types{% endblock %}
+
+{% block content %}
+<h1>Disease Types</h1>
+<a href="{{ url_for('disease_type.new_disease_type') }}" class="btn btn-primary">Add New Disease Type</a>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dt in disease_types %}
+        <tr>
+            <td>{{ dt.id }}</td>
+            <td>{{ dt.description }}</td>
+            <td>
+                <a href="{{ url_for('disease_type.update_disease_type', id=dt.id) }}" class="btn btn-info btn-sm">Update</a>
+                <form action="{{ url_for('disease_type.delete_disease_type', id=dt.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this disease type?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

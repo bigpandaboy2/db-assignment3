@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Doctors{% endblock %}
+
+{% block content %}
+<h1>Doctors</h1>
+<a href="{{ url_for('doctor.new_doctor') }}" class="btn btn-primary">Add New Doctor</a>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Degree</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.email }}</td>
+            <td>{{ doctor.degree }}</td>
+            <td>
+                <a href="{{ url_for('doctor.update_doctor', email=doctor.email) }}" class="btn btn-info btn-sm">Update</a>
+                <form action="{{ url_for('doctor.delete_doctor', email=doctor.email) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this doctor?');">Delete</button>
+                </form>
+                <a href="{{ url_for('doctor.manage_specializations', email=doctor.email) }}" class="btn btn-secondary btn-sm">Specializations</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

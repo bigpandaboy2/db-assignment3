@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ legend }}{% endblock %}
+
+{% block content %}
+<h1>{{ legend }}</h1>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.email.label }} {{ form.email(class="form-control", readonly=(legend == 'Update Doctor')) }}
+        {% if form.email.errors %}
+            <div class="text-danger">{{ form.email.errors[0] }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.degree.label }} {{ form.degree(class="form-control") }}
+        {% if form.degree.errors %}
+            <div class="text-danger">{{ form.degree.errors[0] }}</div>
+        {% endif %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

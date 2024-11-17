@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Countries{% endblock %}
+
+{% block content %}
+<h1>Countries</h1>
+<a href="{{ url_for('country.new_country') }}" class="btn btn-primary">Add New Country</a>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country Name</th>
+            <th>Population</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for country in countries %}
+        <tr>
+            <td>{{ country.cname }}</td>
+            <td>{{ country.population }}</td>
+            <td>
+                <a href="{{ url_for('country.update_country', cname=country.cname) }}" class="btn btn-info btn-sm">Update</a>
+                <form action="{{ url_for('country.delete_country', cname=country.cname) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this country?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
