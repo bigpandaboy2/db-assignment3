@@ -14,7 +14,7 @@ CREATE TABLE users (
     cname VARCHAR(50),
     FOREIGN KEY (cname)
         REFERENCES country(cname)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
 
 -- patients table

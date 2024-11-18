@@ -13,6 +13,7 @@
         }
     ],
     "python.analysis.extraPaths": [
-        "./app"
+        "./app",
+        "./health_info_webapp"
     ]
 }
